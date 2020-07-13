@@ -1,0 +1,6 @@
+#  Action1：求2+4+6+8+...+100的求和
+sum=0
+for i in range(1,51):
+    sum=sum+2*i
+
+print(sum)
