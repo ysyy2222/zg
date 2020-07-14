@@ -1,0 +1,40 @@
+import pandas as pd
+from pandas import Series, DataFrame
+data = {'语文': [68, 95, 98, 90,80],'数学': [65, 76, 86, 88, 90],'英语': [30, 98, 88, 77, 90]}
+df = DataFrame(data, index=['张飞', '关羽', '刘备', '戴维', '许褚'], columns=['语文', '数学', '英语'])
+
+
+averagescore=df.mean()
+print("语文平均分:",averagescore["语文"])
+print("数学平均分::",averagescore["数学"])
+print("语文平均分::",averagescore["英语"])
+
+maxscore=df.max()
+print("语文最高分:",maxscore["语文"])
+print("数学最高分:",maxscore["数学"])
+print("英语最高分:",maxscore["英语"])
+
+minscore=df.min()
+print("语文最低分:",minscore["语文"])
+print("数学最低分:",minscore["数学"])
+print("英语最低分:",minscore["英语"])
+
+varscore=df.var()
+print("语文的方差:",varscore["语文"])
+print("数学的方差:",varscore["数学"])
+print("英语的方差:",varscore["英语"])
+
+stdscore=df.std()
+print("语文成绩的标准差:",stdscore["语文"])
+print("数学成绩的标准差:",stdscore["数学"])
+print("英语成绩的标准差:",stdscore["英语"])
+
+
+def plus(a):
+    a['total']=a['语文']+a['数学']+a['英语']
+    return df
+df2=plus(df)
+
+df3=df2.sort_values(by='total',ascending=False,axis=0,inplace=False)
+print('总分排名：')
+print(df3['total'])
