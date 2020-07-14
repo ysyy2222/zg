@@ -1,0 +1,14 @@
+import pandas as pd
+#对汽车质量数据进行统计
+result = pd.read_csv('car_complain.csv')
+#将'problem'列作为str，通过','区分，进行one-hot编码（离散特征有多少取值，就用多少维来表示这个特征）
+result = result.drop('problem', 1).join(result.problem.str.get_dummies(','))
+tags = result.columns[7:]#问题种类标签
+df= result.groupby(['brand'])['id'].agg(['count'])#对不同品牌的问题数量进行计数汇总
+df2= result.groupby(['brand'])[tags].agg(['sum'])#对不同品牌的各类问题数量进行加和汇总
+#将两个dataframe进行合并，按照left侧的brand信息合并
+df2 = df.merge(df2, left_index=True, right_index=True, how='left')
+df2.reset_index(inplace=True)
+df2= df2.sort_values('count', ascending=False)
+query = ('A12', 'sum')#按照此问题进行排序
+df3 = df2.sort_values(query, ascending=False)
