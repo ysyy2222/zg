@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jul 31 09:31:52 2020
+
+@author: ZhengGe
+"""
+
+
+import pandas as pd
+from efficient_apriori import apriori
+
+
+data = pd.read_csv("C:/Users/zhengge/Desktop/sj\kaoshi/数据分析训练营-结营考试/ProjectB/订单表.csv", encoding='gbk')
+print(data.head())
+transaction=[]
+order_list=data[['客户ID','产品名称']]
+
+for buyer in order_list['客户ID'].drop_duplicates():
+    lists = order_list.loc[order_list['客户ID']==buyer]
+    product_list=[]
+    for product in lists['产品名称']:
+        product_list.append(product)
+    transaction.append(product_list)
+
+def use_efficient_apriori(trans):
+    itemsets, rules = apriori(trans, min_support=0.1, min_confidence=0.45)
+    print("频繁项集：", itemsets)
+    print("关联规则：", rules) 
+
+use_efficient_apriori(transaction)    
